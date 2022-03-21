@@ -12,7 +12,7 @@ There is a form in `/`.
 
 ![Oops](./image/home.jpg)
 
-This feature allows user to view files in github (or gitlab, ...) which was identified by information I GET.
+This feature allows user to view files in github (or gitlab, ...) which was identified by information user GETs.
 
 ![Oops](./image/testfeature.jpg)
 
