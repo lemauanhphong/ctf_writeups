@@ -2,7 +2,7 @@
 
 ## Description
 
-There's maybe nothing spectial in description. 🤔
+There's maybe nothing special in description. 🤔
 ![Oops](./image/description.jpg)
 
 ## 💻 Explore the website

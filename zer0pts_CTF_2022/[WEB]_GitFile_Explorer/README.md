@@ -19,7 +19,7 @@ This feature allows user to view files in github (or gitlab, ...) which was iden
 ## 🧑‍💻 Processing:
 **index.php:**
 
-The code turns our information I GET into an URI and use `file_get_contents()` to fetch the data. 
+The code turns information I GET into an URI and use `file_get_contents()` to fetch the data. 
 
 I immediately got an idea about weird (in my opinion) PHP parser: PHP tries to simply all the `../` before traversing.
 

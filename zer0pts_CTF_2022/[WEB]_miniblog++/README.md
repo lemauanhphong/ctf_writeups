@@ -16,7 +16,7 @@ I don't need to register, so I use `username = a` and `password = b` to test.
 
 There are three buttons/features: `NEW`, `EXPORT`, `IMPORT`.
 
-`NEW` button allows user to create a post on our account.
+`NEW` button allows user to create a post on user's account.
 
 ![Oops](./image/post_test.jpg)
 
