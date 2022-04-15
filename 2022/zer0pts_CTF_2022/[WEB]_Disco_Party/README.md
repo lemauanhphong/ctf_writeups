@@ -51,9 +51,9 @@ I was stuck here for a very long time.
 
 Then I realized every big platforms like Discord have their own bots, and they click every URL in the conversation automatically. 
 
-🤔 *Really? I don't believe, prove it.* 
+*Really? I don't believe, prove it.* 🤔 
 
-🤓As you wish:
+As you wish: 🤓 
 
 - Setup a webhook:
 ![Oops](./image/setup_requestrepo.jpg)
