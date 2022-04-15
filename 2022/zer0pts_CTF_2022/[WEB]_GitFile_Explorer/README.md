@@ -21,7 +21,7 @@ This feature allows user to view files in github (or gitlab, ...) which was iden
 
 The code turns information I GET into an URI and use `file_get_contents()` to fetch the data. 
 
-I immediately got an idea about weird (in my opinion) PHP parser: PHP tries to simply all the `../` before traversing.
+I immediately got an idea about weird (in my opinion) PHP parser: PHP tries to simplify all the `../` before traversing.
 
 ```php
 file_get_contents('/thisDirecotyDoesNotExist/hehe/../../flag.txt'); // This is equivalent to file_get_contents('/flag.txt') 
