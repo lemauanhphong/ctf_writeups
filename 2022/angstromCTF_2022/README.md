@@ -909,3 +909,6 @@ Flag:
 ```
 actf{why_do_people_still_use_php} 
 ```
+
+## Nhận xét:
+Mình vẫn chưa làm được bài khó :v
