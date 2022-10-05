@@ -1,10 +1,10 @@
 # Sekai Game Start
 ## 📄 Description
-There is no hints in the description.
+There are no hints in the description.
 ![Oops](./images/description.png)
 
 ## 💻 Explore the website
-We are given PHP source code in an usual way: 😀
+We are given PHP source code in the usual way: 😀
 ```php
  <?php
     include('./flag.php');
@@ -30,12 +30,12 @@ We are given PHP source code in an usual way: 😀
 ## 🧑‍💻 Source code
 
 In source code:
-There is `Sekai_Game` class which contains one property and two methods:
+There is the `Sekai_Game` class which contains one property and two methods:
     - Property `public $start = True`.
-    - Method `__destruct()` is a magic method which will be invoked when the instance is deleted or the end of code. If `public $start` is equal to `True` strictly, we will get the flag.
-    - Method `__wakeup()` is a magic method which will be invoked when we unserialize a serialized data of `Sekai_Game` class.
+    - Method `__destruct()` is a magic method that will be invoked when the instance is deleted or at the end of the code. If `public $start` is strictly equal to `True`, we will get the flag.
+    - Method `__wakeup()` is a magic method that will be invoked when we unserialize a serialized data of the `Sekai_Game` class.
 - We can pass data into `unserialize()` through get parameter `$_GET['sekai_game.run']`.
-- The normal flow: We pass data into `unserialize()` and `__wakeup()` will be invoked. That will make `$this->start=False` and we won't be able to use `__destruct()` to get the flag. So we need to bypass `__wakeup()` method.
+- The normal flow: We pass data into `unserialize()` and `__wakeup()` will be invoked. That will make `$this->start=False` and we won't be able to use `__destruct()` to get the flag. So we need to bypass the `__wakeup()` method.
 
 Try to search something like `bypass wakeup method` will lead us to [this](https://bugs.php.net/bug.php?id=81151).
 ![Oops](./images/test_C.png)
@@ -46,7 +46,7 @@ Another problem is `$_GET['sekai_game.run']`. If we pass `sekai_game.run=C:10:"S
 
 So there could be other PHP magic "features". 
 
-We know that PHP convert some characters into `_` but convert nothing into anything else. So everything except `_` still remains. Just bruteforce the character at the position of `_`.
+We know that PHP converts some characters into `_` but converts nothing into anything else. So everything except `_` remains. Just brute force the character at the position of `_`.
 ```
 ...
 'sekaiagame.run' -> 'sekaiagame_run'

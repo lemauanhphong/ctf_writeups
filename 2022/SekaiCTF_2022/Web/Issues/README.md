@@ -1,6 +1,6 @@
 # Issues
 ## 📄 Description
-We need to bypass something to become admin.
+We need to bypass something to become an admin.
 ![Oops](./images/description.png)
 
 ## 💻 Explore the website
@@ -22,12 +22,12 @@ def logout():
     redirect_uri = request.args.get('redirect', url_for('home'))
     return redirect(redirect_uri)
 ```
-- `/.well-known/jwks.json`: give us public key that server use to validate JWT token (maybe).
+- `/.well-known/jwks.json`: give us a public key that the server uses to validate the JWT token (maybe).
 - `/logout`: navigate to `redirect` get parameter or `/home`.
 
 In `api.py`, we have:
 - `/api/flag`: this will give us flag, but not so fast.
-- To access to `/api/flag` we must give server a valid JWT token.
+- To access `/api/flag` we must give the server a valid JWT token.
 ```py
 f = open("flag.txt")
 secret_flag = f.read()
@@ -107,7 +107,7 @@ def authorize():
         return "Authorization failed"
 ```
 
-The author wanted to add `issuer` header in JWT so he (or she) implemented it by hand. The flow is: 
+The author wanted to add an `issuer` header in JWT so he (or she) implemented it by hand. The flow is: 
 ```
 -> authorize()
         -> authorize_request()
@@ -117,22 +117,22 @@ The author wanted to add `issuer` header in JWT so he (or she) implemented it by
 ```
 
 - `authorize()` will ensure there is valid `Authorization` field in request header `Authorization: <name> <token></token>`.
-- After that, token will be passed to `authorize_request()` to validate token. In `authorize_request()`:
-    - Use `get_public_key_url()` to ensure netloc of `issuer` header is equal to `valid_issuer_domain`. And then return `{host}/.well-known/jwks.json` (with `host` is the value of `issuer` field). It is where public key is stored to validate JWT token. The author checks `urlparse(issuer).netloc == valid_issuer_domain` because he (or she) trusts server he (or she) controls.
+- After that, the token will be passed to `authorize_request()` to validate the token. In `authorize_request()`:
+    - Use `get_public_key_url()` to ensure netloc of `issuer` header is equal to `valid_issuer_domain`. And then return `{host}/.well-known/jwks.json` (with `host` is the value of `issuer` field). It is where the public key is stored to validate the JWT token. The author checks `urlparse(issuer).netloc == valid_issuer_domain` because he (or she) trusts server he (or she) controls.
     - Use `has_valid_alg()` to ensure value of `alg` header is `RS256`.
     - User `get_public_key()` to get public key from result of `get_public_key_url()`.
     - Validate token.
     - Return `true` if `user` in body is `admin`, `false` otherwise.
-- If all above steps are passed, we can get the flag.
+- If all the above steps are passed, we can get the flag.
 
 ## 🤔But how? 
-- The key is that people use public key to validate JWT. So:
-    1. We can generate a RS256 key pair.
+- The key is that people use public key to validate the JWT. So:
+    1. We can generate an RS256 key pair.
     2. Convert public key into JWK format.
     3. Host a server with endpoint `/.well-known/jwks.json` which will return our public key in JWK format.
-    4. Change `issuer` header field to trusted domain (`localhost:8080`) (but contains our public key) to bypass netloc checking and `user` body field to `admin`.
+    4. Change the `issuer` header field to the trusted domain (`localhost:8080`) (but contains our public key) to bypass netloc checking and the `user` body field to `admin`.
     5. Use our private key to sign our data.
-    6. Access to `http://issues-3m7gwj1d.ctf.sekai.team/api/flag` to see response.
+    6. Access `http://issues-3m7gwj1d.ctf.sekai.team/api/flag` to see the response.
 
 - In step 4, we use `http://localhost:8080/logout?redirect=<our domain>` because it will bypass netloc checking and return our public key in JWK format.
 ![Oops](./images/jwt.png)
