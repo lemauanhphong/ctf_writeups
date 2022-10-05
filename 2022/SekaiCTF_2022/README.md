@@ -3,7 +3,7 @@
 ## Team ranking
 ![Oops](ranking.jpg)
 
-## Write-up
+## Write-up or submission
 - [Web](./Web)
 
 - [Programming](./Programming/)
