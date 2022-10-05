@@ -1,15 +1,15 @@
 # Issues
-## Description
+## 📄 Description
 We need to bypass something to become admin.
 ![Oops](./images/description.png)
 
-## Explore the website
+## 💻 Explore the website
 ![Oops](./images/main.png)
 
-There's nothing spcial here, so skip to the next part.
+There's nothing special here, so skip to the next part.
 
-## What are in source code?
-There are some end points in `app.py` but there are only two endpoints do something seriously:
+## 🧑‍💻Source code
+There are some endpoints in `app.py` but there are only two endpoints that do something seriously:
 ```py
 @app.route("/.well-known/jwks.json")
 def jwks():
@@ -27,7 +27,7 @@ def logout():
 
 In `api.py`, we have:
 - `/api/flag`: this will give us flag, but not so fast.
-- To access to `/api/flag` we must give server valid JWT token.
+- To access to `/api/flag` we must give server a valid JWT token.
 ```py
 f = open("flag.txt")
 secret_flag = f.read()
@@ -39,7 +39,7 @@ def flag():
     return secret_flag
 ```
 
-How does the server validate the JWT token?
+How does the server validate the JWT token? 🤔
 
 ```py
 valid_issuer_domain = os.getenv("HOST")
@@ -107,8 +107,7 @@ def authorize():
         return "Authorization failed"
 ```
 
-- The author wanted to add `issuer` header in JWT so he (or she) implemented it by hand.
-- The flow is: 
+The author wanted to add `issuer` header in JWT so he (or she) implemented it by hand. The flow is: 
 ```
 -> authorize()
         -> authorize_request()
@@ -126,10 +125,17 @@ def authorize():
     - Return `true` if `user` in body is `admin`, `false` otherwise.
 - If all above steps are passed, we can get the flag.
 
-## But how?
-- We can generate a RS256 key pair.
-- Convert public key into JWK format.
-- Host a server with endpoint `/.well-known/jwks.json` which will return our public key.
-- Change `issuer` header field to our domain and `user` body field to `admin`.
-- Use our private key to sign our data.
-- Access to `http://issues-3m7gwj1d.ctf.sekai.team/api/flag` to see response.
+## 🤔But how? 
+- The key is that people use public key to validate JWT. So:
+    1. We can generate a RS256 key pair.
+    2. Convert public key into JWK format.
+    3. Host a server with endpoint `/.well-known/jwks.json` which will return our public key in JWK format.
+    4. Change `issuer` header field to trusted domain (`localhost:8080`) (but contains our public key) to bypass netloc checking and `user` body field to `admin`.
+    5. Use our private key to sign our data.
+    6. Access to `http://issues-3m7gwj1d.ctf.sekai.team/api/flag` to see response.
+
+- In step 4, we use `http://localhost:8080/logout?redirect=<our domain>` because it will bypass netloc checking and return our public key in JWK format.
+![Oops](./images/jwt.png)
+![Oops](./images/resp.png)
+
+## 🚩Flag: SEKAI{v4l1d4t3_y0ur_i55u3r_plz}
