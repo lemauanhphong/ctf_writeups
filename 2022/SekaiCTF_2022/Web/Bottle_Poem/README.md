@@ -5,13 +5,16 @@ This is the second time I have written write-up for this challenge. I have delet
 
 ## 📄Desription
 The sentence "Flag is executable on server" makes me know that I need to do RCE.
+
 ![Oops](./images/description.png)
 
 ## 👨‍💻Explore the website
 We have three links on the home page:
+
 ![Oops](./images/home.png)
 
 Click on one of them, the server gives us a poem.
+
 ![Oops](./images/param.png)
 
 Give notice on GET parameter `id=string.txt`, we should test for path traversal by changing `string.txt` to `../../etc/passwd` - typical payload, right?
@@ -19,12 +22,15 @@ Give notice on GET parameter `id=string.txt`, we should test for path traversal 
 ![Oops](./images/path_traversal.png)
 
 🥳 Yay :v Path traversal detected :v Next, I decided to read `/proc/self/cmdline`, this is a file that the command to start the current process (web). 
+
 ![Oops](./images/cmdline.png)
 
 The author has executed `python3 -u /app/app.py`. `/app/app.py` can be the main source code. Just try to read it.
+
 ![Oops](./images/app_py.png)
 
 In `app.py` there is an interesting endpoint `/sign`. By reading the source code, we know there are `/views/admin.html`, `/views/guest.html`, `/views/error.html` and `/views/index.html` but none of them gives us the flag. We also can obtain the secret `sekai` by reading `/app/config/secret.py` because there is `from config.secret import sekai` in `app.py`.
+
 ![Oops](./images/secret_py.png)
 
 With that secret, we can control cookies 🍪. Remember what we need is RCE. So I have searched for an issue in the Bottle framework and have found [this](https://github.com/bottlepy/bottle/issues/900). Bottle uses `pickle` module to serialize data in cookies processing that leads to RCE ([more](https://www.youtube.com/watch?v=jwzeJU_62IQ)).
