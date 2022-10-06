@@ -41,7 +41,7 @@ With that secret, we can control cookies 🍪. Remember what we need is RCE. So 
     ![Oops](./images/dangerous_class.jpg)
     - Make sure Bottle always serialize dangerous instance:
     ![Oops](./images/cookie_encode.jpg)
-- Use challenge's secret key `sekai` to encrypt/sign our new cookie and then send that cookie to server `/sign` to get RCE.
+- Use challenge's secret key `sekai` to encrypt/sign our new cookie and then send that cookie to server `/sign` to get RCE. Code below.
     ```py
     from bottle import route, run, template, request, response, error
     import os
