@@ -1,5 +1,10 @@
 # Kỹ thuật pivot và tool Neo-reGeorg
 
+## 0. Cấu trúc:
+- `lab`: thư mục chứa mã nguồn dùng để test trong bài viết. Cách setup: `docker compose up`.
+- `images`: thư mục chứa hình ảnh được sử dụng trong bài viết.
+- `image_maker.pptx`: file powerpoint được dùng để tạo các hình ảnh trong bài viết.
+
 ## 1. Giới thiệu
 Pivot là một kỹ thuật giúp attacker tăng tầm ảnh hưởng của lỗ hổng đối với một hệ thống.
 
