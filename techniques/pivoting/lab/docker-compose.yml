@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  HA:
+    container_name: HA
+    image: php:8.0-apache
+    volumes:
+      - ./src1:/var/www/html/
+    ports:
+      - "8000:80"
+    networks:
+      - bridgeA
+      - bridgeB
+
+  HB:
+    container_name: HB
+    image: redis:latest
+    networks:
+      - bridgeB
+
+  HC:
+    container_name: HC
+    image: php:8.0-apache
+    volumes:
+      - ./src2:/var/www/html/
+    expose:
+      - "80"
+    networks:
+      - bridgeB
+
+networks:
+  bridgeA:
+    driver: bridge
+  bridgeB:
+    driver: bridge
