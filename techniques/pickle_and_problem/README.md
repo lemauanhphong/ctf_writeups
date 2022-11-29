@@ -98,7 +98,7 @@ TUPLE1         = b'\x85'  # build 1-tuple from stack top
 ```
 
 Cụ thể:
-- `REDUCE` được dùng để gọi callable. Callable là những gì có thể được gọi, điển hình là hàm. Chú ý là cả callable và argument tuple của callable đó đều được lấy từ `stack`. Do đó attacker có thể sử dụng nó để thực thi code. Ở ví dụ phía dưới, mình sẽ lấy callable là `os.system` và tuple là `('ls',)`. Thì khi gọi được callable ta sẽ thực thi được lệnh `ls` trên shell.
+- `REDUCE` được dùng để gọi callable. Callable là những gì có thể được gọi, điển hình là hàm. Chú ý là cả callable và argument tuple của callable đó đều được lấy từ `stack`. Do đó attacker có thể sử dụng nó để thực thi code. Ở ví dụ phía dưới, mình sẽ lấy callable là `os.system` và tuple là `('ls',)`. Thì khi gọi được callable ta sẽ thực thi được lệnh `ls` trên shell. Ký hiệu lệnh của `REDUCE` là `R`.
 - `GLOBAL` và `STACK_GLOBAL` được dùng để gọi `self.find_class()` có tác dụng tìm thuộc tính của một object và trả về nó. Ta có thể lợi dụng nó để tìm thuộc tính thành viên là một hàm để hỗ trợ cho `REDUCE`.
 
     ```python
@@ -128,7 +128,7 @@ Cụ thể:
     >>> getattr(sys.modules['os'], 'system')                                                                                
     <built-in function system> 
     >>>                                                                                             
-    >>> pickle.loads(b"cos\nsystem\n.")    # ở đây sử dụng GLOBAL để demo, có thể sử dụng STACK_GLOBAL cũng được, nhưng sẽ cần thay đổi byte 
+    >>> pickle.loads(b"cos\nsystem\n.") # ở đây sử dụng GLOBAL để demo, có thể sử dụng STACK_GLOBAL cũng được, nhưng sẽ cần thay đổi byte. 'c' chính là ký hiệu cho lệnh GLOBAL
     <built-in function system>
     ```
 
