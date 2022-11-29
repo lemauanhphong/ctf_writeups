@@ -64,6 +64,25 @@ Ngoài ra, pickle cũng có nhiều ký tự đại diện cho các [lệnh](htt
 
 Mỗi ký tự sẽ có một tên khác: Ví dụ `(` có tên là `MARK`.
 
+## Pickletools
+Trong Python có module `pickletools` với hàm `genops` sẽ giúp con người đọc opcode dễ hơn.
+```
+>>> import pickletools
+>>>
+>>> opcode = pickletools.genops(b"cos\nsystem\nS'ls'\n\x85R.")
+>>>
+>>> for x in opcode:
+...     print(x[0].name, x[1])
+...
+GLOBAL os system
+STRING ls
+TUPLE1 None
+REDUCE None
+STOP None
+```
+
+Đôi lúc ta sẽ bắt gặp lập trình viên sử dụng `pickletools` để filter trước khi deserialize bằng cách giới hạn các lệnh và nội dung của lệnh.
+
 ## Vấn đề của pickle
 Khi deserialize nó thực thi một số lệnh, và trong các lệnh đó có một vài lệnh không an toàn để sử dụng. Ví dụ như:
 ```python
@@ -93,7 +112,7 @@ Cụ thể:
             return getattr(sys.modules[module], name)
     ```
 
-    Ta thấy rằng `find_class(module, name)` sẽ import một module rồi trả về `getattr(sys.modules[module], name)`. Ta có thể sử dụng nó để `import os` rồi lấy hàm `system` để thực hiện RCE.
+    Ta thấy rằng `find_class(module, name)` sẽ import một module rồi trả về `getattr(sys.modules[module], name)`. Ta có thể sử dụng nó để `import os` rồi lấy hàm `system` để thực hiện RCE. `module` sẽ là `os` và `name` sẽ là `system`.
 
     ```
     >>> import pickle                                                                                                       >>> import sys                                                                                                          >>>                                                                                                                     >>> __import__('os', level=0)                                                                                           <module 'os' from '/usr/lib/python3.8/os.py'>                                                                           >>> getattr(sys.modules['os'], 'system')                                                                                <built-in function system> 
@@ -114,26 +133,9 @@ Cụ thể:
 
 Vậy là ta đã thực thi được code, là điều mà mọi hacker đều muốn 😁
 
-Ngoài ra, mình cũng từng gặp một concept exploit như sau:
+Ngoài ra, mình cũng từng gặp một concept exploit ([bài phân tích ở đây nè](../../2022/hitconCTF_2022/S0undCl0ud/) 😆) như sau:
 - Upload file `__init__.py` vào một thư mục.
 - Sau đó lợi dụng `STACK_GLOBAL` hoặc `GLOBAL` để `__import__()` thư mục chứa file `__init__.py` vào thế là thực thi được code. 🤯
-
-## Pickletools
-Trong Python có module `pickletools` với hàm `genops` sẽ giúp con người đọc opcode dễ hơn.
-```
->>> import pickletools
->>>
->>> opcode = pickletools.genops(b"cos\nsystem\nS'ls'\n\x85R.")
->>>
->>> for x in opcode:
-...     print(x[0].name, x[1])
-...
-GLOBAL os system
-STRING ls
-TUPLE1 None
-REDUCE None
-STOP None
-```
 
 ## Tham khảo
 - https://adrianstoll.com/post/python-in-a-pickle-an-explanation-of-the-python-pickle-format-and-security-problems/
