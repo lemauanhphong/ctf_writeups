@@ -1,5 +1,4 @@
 # S0undCl0ud
-
 ## Source
 File tải source: [source](./s0undcl0ud.zip).
 
@@ -99,7 +98,7 @@ Trước khi phân tích hàm `loads_with_validate`, mình nghĩ các bạn nên
     ```
 - Khi bypass được cả hai thứ trên thì mới được deserialize.
 
-Sau phần sesstion là phần của database. Lập trình viên setup một cơ sở dữ liệu với bảng `users` với các trường `id`, `username` và `password`.
+Sau phần session là phần của database. Lập trình viên setup một cơ sở dữ liệu với bảng `users` với các trường `id`, `username` và `password`.
 
 Tiếp theo ta sẽ phân tích các endpoint.
 
@@ -193,6 +192,8 @@ Khi đã có được `SECRET_KEY` attacker có thể sửa cookie theo ý muố
 ![Oops](./images/get_secret_key.jpg)
 
 ## Phân tích solution
+Toàn bộ code exploit: [exploit.py](./exploit.py).
+
 Sau khi phân tích hết source code mình vẫn không biết khai thác sao cả, tại vì flag nằm ở `/` nên phải RCE, mà thứ duy nhất có khả năng RCE là pickle mà mình không sao bypass được đoạn filter opcode đó cả. Do đó mình sẽ phân tích solution của ban tổ chức.
 
 Một điều mấu chốt mà mình bỏ qua chính là `pickletools.genops(data)` sẽ trả về generator. Khi sử dụng `for in` đối với generator 2 lần thì lần sau không có tác dụng gì cả. Do đó ở phần filter opcode pickle thì chỉ có cái đầu tiên có tác dụng. Nên hàm `loads_with_validate` sẽ có tác dụng duy nhất là kiểm tra mọi argument của opcode cần thuộc `allowed_args` (`['user_id', 'musics', None]`) hoặc phải là kiểu int hoặc là kiểu string nhưng thỏa mãn regex `^musics/[^/]+/[^/]+$`. Còn lệnh của opcode thì là gì cũng được.
@@ -235,18 +236,19 @@ Ta sẽ dùng username dạng `aaaa/../` để có thể upload vào `musics`, b
 Hàm `guess_type()` nhận argument là một url chứ không phải là một file name.
 ![Oops](./images/guess_type.jpg)
 
-Nên có thể sử dụng `data:audio/x-wav,` để bypass được, hàm đó sẽ check scheme và type trước khi check filename. Mọi người đọc [đây](https://github.com/python/cpython/blob/main/Lib/mimetypes.py#L103) nhé 😉
+Nên có thể sử dụng `data:audio/x-wav,` để bypass. Hàm đó sẽ check scheme và type trước khi check filename. Ví dụ: `data:audio/x-wav,/test.py` sẽ được đoán file type là `audio/x-wav` còn `test.py` sẽ được đoán file type là `text/x-python` .Mọi người đọc thêm ở [đây](https://github.com/python/cpython/blob/main/Lib/mimetypes.py#L103) nhé 😉
 
 Hoặc có thể sử dụng null byte để bypass:
 ![Oops](./images/nullbytetrick.jpg)
 
-Còn bypass check thì sử dụng magicbyte của `audio/x-wav` (`RIFFxxxxWAVEfmt`) ở đầu file là bypass được.
+Còn bypass check thứ hai thì sử dụng magicbyte của `audio/x-wav` (`RIFFxxxxWAVEfmt`) ở đầu file là bypass được.
 
 Lúc đó file type được dự đoán đều là `audio/x-wav`. Do đó sẽ bypass được.
 
-Trong file exploit của tác giả: quy trình như sau
+Kết hợp hết những thứ ở trên lại. Trong file exploit của tác giả, quy trình như sau:
+
 0. Setup chuẩn bị cho reverse shell.
-1. Lây `SECRET_KEY`.
+1. Lấy `SECRET_KEY`.
 2. Login với username là `data:audio` -> tạo thư mục `musics/data:audio`.
 3. Login với username là `data:audio/x-wav,` -> tạo thư mục `musics/data:audio/x-wav,`.
 4. Login với username là `nyan` -> tạo thư mục `musics/nyan`.
@@ -266,5 +268,5 @@ Trong file exploit của tác giả: quy trình như sau
     ```
 7. Sử dụng `SECRET_KEY` gửi `b'Vmusics\n2\x93.'` lên để import `musics` và RCE.
 
-Toàn bộ code exploit: [exploit.py](./exploit.py).
-
+## Những thứ học được
+Trước giờ mình vẫn thắc mắc cách hoạt động của pickle, sau bài này thì mình đã học được điều đó. Ngoài ra mình còn biết về generator nữa. 🙂
