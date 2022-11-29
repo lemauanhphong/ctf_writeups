@@ -1,5 +1,9 @@
 # Cách mà pickle deserialize dữ liệu
 
+## Bối cảnh của bài viết này
+
+Mình luôn thắc mắc về cách hoạt động của pickle từ khi biết về sự tồn tại của nó. Tuy nhiên mãi cho tới khi bị ăn hành bởi một bài [CTF](../../2022/hitconCTF_2022/S0undCl0ud/) thì mình mới đi tìm hiểu 😁.
+
 ## Serialize và deserialize
 
 Todo 😉
