@@ -176,7 +176,11 @@ def upload():
 ```
 Trước đó, ta có
 ```
->>> import mimetypes                                                                                                    >>>                                                                                                                     >>> AUDIO_MIMETYPES = set(filter(lambda mime: mime.startswith('audio/'),                                                ...                              mimetypes.types_map.values()))                                                         >>> AUDIO_MIMETYPES                                                                                                     {'audio/x-ms-wma', 'audio/basic', 'audio/x-wav', 'audio/csound', 'audio/x-sd2', 'audio/x-ms-wax', 'audio/ogg', 'audio/prs.sid', 'audio/x-gsm', 'audio/mpeg', 'audio/amr', 'audio/x-scpls', 'audio/flac', 'audio/amr-wb', 'audio/x-mpegurl', 'audio/x-aiff', 'audio/x-realaudio', 'audio/x-pn-realaudio', 'audio/annodex', 'audio/midi'}
+>>> import mimetypes
+>>>
+>>> AUDIO_MIMETYPES = set(filter(lambda mime: mime.startswith('audio'), mimetypes.types_map.values()))
+>>> AUDIO_MIMETYPES                                                                                                     
+{'audio/x-ms-wma', 'audio/basic', 'audio/x-wav', 'audio/csound', 'audio/x-sd2', 'audio/x-ms-wax', 'audio/ogg', 'audio/prs.sid', 'audio/x-gsm', 'audio/mpeg', 'audio/amr', 'audio/x-scpls', 'audio/flac', 'audio/amr-wb', 'audio/x-mpegurl', 'audio/x-aiff', 'audio/x-realaudio', 'audio/x-pn-realaudio', 'audio/annodex', 'audio/midi'}
 ```
 
 Sau đó ở `POST /upload` file tải lên sẽ được kiểm tra là `mimetypes.guess_type(file.filename)[0] in AUDIO_MIMETYPES and magic.from_buffer(file.stream.read(), mime=True) in AUDIO_MIMETYPES`. Tức là sẽ dựa vào filename của file được tải lên và magic byte để đoán filetype. Nếu filetype thuộc `AUDIO_MIMETYPES` thì sẽ cho phép lưu vào thư mục riêng của user và cập nhật `session`.
