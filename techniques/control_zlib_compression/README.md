@@ -36,7 +36,7 @@ Nếu chương trình bị lỗi hoặc in ra `Constraint may be violated` hoặ
 Ngược lại, dòng đầu tiên chính là chuỗi byte mà ta cần 😁
 
 ## Lưu ý:
-Không phải tất cả payload đều hoạt động được, ví dụ `<?=\`$_GET[1]\`;?>` sẽ gây ra lỗi.
+Không phải tất cả payload đều hoạt động được, ví dụ ``<?=`$_GET[1]`;?>`` sẽ gây ra lỗi.
 
 Điều kiện để code gặp ít lỗi nhất (nhưng vẫn sẽ có lỗi 🥲), nếu không thì sẽ phải tự sửa lại tùy payload 😿
 1. Không dùng quá nhiều loại ký tự khác nhau trong payload.
@@ -51,7 +51,7 @@ Không phải tất cả payload đều hoạt động được, ví dụ `<?=\`
 ## Ghi chú cho sau này:
 - Cái cây cần dùng cho debug khi `BTYPE=1` :)
 ![Oops](https://user-images.githubusercontent.com/91038460/209665780-a1483101-f2f8-4e34-a07e-ac95989c238a.png)
-- Các phần được implement nhưng lại không dùng mà được để lại đề phòng sau này sẽ được comment là "# [skip me]"
+- Các phần được implement nhưng lại không dùng mà được để lại đề phòng sau này sẽ được comment là `# [skip me]`
 - Điều kiện 1 được dùng để đảm bảo BTYPE không thể bằng 0.
 - Điều kiện 2 được dùng để đảm bảo BTYPE không thể bằng 2.
 - Điều kiện 3 được dùng để đảm bảo thuật toán LZ77 được dùng khi compress() không có tác dụng, do đó lúc decompress() cũng không có tác dụng.
