@@ -31,10 +31,31 @@ Double check
 Yeah 🙂
 ```
 
-Nếu chương trình bị lỗi hoặc in ra `Constraint may be violated` hoặc `Take a rest 🤕` thì có gì đó code đã sai gì đó 😭.
+Nếu chương trình bị lỗi hoặc in ra `Constraint may be violated` hoặc `Take a rest 🤕` thì có thể là code đã không cover được hết trường hợp 😭.
 
 Ngược lại, dòng đầu tiên chính là chuỗi byte mà ta cần 😁
+
+## Lưu ý:
+Không phải tất cả payload đều hoạt động được, ví dụ `<?=\`$_GET[1]\`;?>` sẽ gây ra lỗi.
+
+Điều kiện để code gặp ít lỗi nhất (nhưng vẫn sẽ có lỗi 🥲), nếu không thì sẽ phải tự sửa lại tùy payload 😿
+1. Không dùng quá nhiều loại ký tự khác nhau trong payload.
+2. Dùng payload càng ngắn càng tốt.
+3. Mỗi substring độ dài 3 sau khi decompress() không xuất hiện quá 1 lần (Để đảm bảo BTYPE luôn bằng 1).
+4. Nên để terminate_symbol như vậy.
 
 ## ~~Chép code~~ Tham khảo:
 - https://calmarius.net/index.php?lang=en&page=programming%2Fzlib_deflate_quick_reference: Đây là nơi mình đọc về format của compressed data.
 - https://pyokagan.name/blog/2019-10-18-zlibinflate/. Đây là link mình đọc về thuật toán sử dụng trong `zlib.compress()` và cả chép code nữa. 🦫
+
+## Ghi chú cho sau này:
+- Cái cây cần dùng cho debug :)
+![Oops](https://user-images.githubusercontent.com/91038460/209665780-a1483101-f2f8-4e34-a07e-ac95989c238a.png)
+- Các phần được implement nhưng lại không dùng mà được để lại đề phòng sau này sẽ được comment là "# [skip me]"
+- Điều kiện 1 được dùng để đảm bảo BTYPE không thể bằng 0.
+- Điều kiện 2 được dùng để đảm bảo BTYPE không thể bằng 2.
+- Điều kiện 3 được dùng để đảm bảo thuật toán LZ77 được dùng khi compress() không có tác dụng, do đó lúc decompress() cũng không có tác dụng.
+- 27/12/2022: chỉ có 3 loại BTYPE 0, 1 và 2. Mình cố gắng để BTYPE = 1, 
+      + là một giá trị cho phép hiệu quả về cả độ phức tạp và độ dài của payload và output.
+      + mình cố gắng để BTYPE = 1 nhưng đoạn implement decompress() thì có cả code xử lý khi BTYPE = 0 hay 2 dùng để đề phòng cho sau này.
+      + tương tự phần xử lý LZ77 ở trên cũng không có tác dụng nhưng sẽ được mình để lại.
