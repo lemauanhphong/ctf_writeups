@@ -72,7 +72,7 @@ def inflate(r):
             raise Exception('invalid BTYPE')
     return bytes(out)
 
-# [Be fun to skip me]
+# [Be happy to skip me]
 def inflate_block_no_compression(r, o):
     LEN = r.read_bytes(2)
     NLEN = r.read_bytes(2)
@@ -128,7 +128,7 @@ def decode_symbol(r, t):
     
     return node.symbol
 
-# [Be fun to skip me]
+# [Be happy to skip me]
 LengthExtraBits = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3,
         3, 4, 4, 4, 4, 5, 5, 5, 5, 0]
 LengthBase = [3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43,
@@ -171,7 +171,7 @@ def bl_list_to_tree(bl, alphabet):
 
 CodeLengthCodesOrder = [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15]
 
-# [Be fun to skip me]
+# [Be happy to skip me]
 def decode_trees(r):
     # The number of literal/length codes
     HLIT = r.read_bits(5) + 257
@@ -218,7 +218,7 @@ def decode_trees(r):
     distance_tree = bl_list_to_tree(bl[HLIT:], range(30))
     return literal_length_tree, distance_tree
 
-# [Be fun to skip me]
+# [Be happy to skip me]
 def inflate_block_dynamic(r, o):
     literal_length_tree, distance_tree = decode_trees(r)
     inflate_block_data(r, literal_length_tree, distance_tree, o)
@@ -240,7 +240,7 @@ def inflate_block_fixed(r, o):
 # 4. Nên để terminate_symbol như vậy.
 
 # Ghi chú cho sau này:
-# - Các phần được implement nhưng lại không dùng mà được để lại đề phòng sau này sẽ được comment là "# [Be fun to skip me]"
+# - Các phần được implement nhưng lại không dùng mà được để lại đề phòng sau này sẽ được comment là "# [Be happy to skip me]"
 # - Điều kiện 1 được dùng để đảm bảo BTYPE không thể bằng 0.
 # - Điều kiện 2 được dùng để đảm bảo BTYPE không thể bằng 2.
 # - Điều kiện 3 được dùng để đảm bảo thuật toán LZ77 được dùng khi compress() không có tác dụng, do đó lúc decompress() cũng không có tác dụng.
