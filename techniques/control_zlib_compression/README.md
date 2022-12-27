@@ -49,7 +49,7 @@ Không phải tất cả payload đều hoạt động được, ví dụ `<?=\`
 - https://pyokagan.name/blog/2019-10-18-zlibinflate/. Đây là link mình đọc về thuật toán sử dụng trong `zlib.compress()` và cả chép code nữa. 🦫
 
 ## Ghi chú cho sau này:
-- Cái cây cần dùng cho debug :)
+- Cái cây cần dùng cho debug khi `BTYPE=1` :)
 ![Oops](https://user-images.githubusercontent.com/91038460/209665780-a1483101-f2f8-4e34-a07e-ac95989c238a.png)
 - Các phần được implement nhưng lại không dùng mà được để lại đề phòng sau này sẽ được comment là "# [skip me]"
 - Điều kiện 1 được dùng để đảm bảo BTYPE không thể bằng 0.
