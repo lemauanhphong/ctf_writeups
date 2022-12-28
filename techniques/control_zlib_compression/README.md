@@ -24,6 +24,11 @@ Vì zlib compression/decompression là quá trình không làm mất dữ liệu
 
 ## Cách dùng:
 Vào sửa biến `payload` rồi chạy code thôi 😉.
+
+Nếu chương trình bị lỗi hoặc in ra `Constraint may be violated` hoặc `Take a rest 🤕` thì có thể là code đã không cover được hết trường hợp 😭.
+
+Ngược lại, dòng đầu tiên chính là chuỗi byte mà ta cần 😁
+
 ```Ruby
 b'\x03\xa3\x9fgTo,$\x15+!g\x12To\x11.)\x15+\x19g"ko_P'
 
@@ -31,18 +36,15 @@ Double check
 Yeah 🙂
 ```
 
-Nếu chương trình bị lỗi hoặc in ra `Constraint may be violated` hoặc `Take a rest 🤕` thì có thể là code đã không cover được hết trường hợp 😭.
-
-Ngược lại, dòng đầu tiên chính là chuỗi byte mà ta cần 😁
-
 ## Lưu ý:
 Không phải tất cả payload đều hoạt động được, ví dụ ``<?=`$_GET[1]`;?>`` sẽ gây ra lỗi.
 
 Điều kiện để code gặp ít lỗi nhất (nhưng vẫn sẽ có lỗi 🥲), nếu không thì sẽ phải tự sửa lại tùy payload 😿
 1. Không dùng quá nhiều loại ký tự khác nhau trong payload.
-2. Dùng payload càng ngắn càng tốt.
-3. Mỗi substring độ dài 3 sau khi decompress() không xuất hiện quá 1 lần (Để đảm bảo BTYPE luôn bằng 1).
-4. Nên để terminate_symbol như vậy.
+2. Dùng `payload` càng ngắn càng tốt.
+3. Ký tự cuối cùng của `payload` nên để là `>`.
+4. Mỗi substring độ dài 3 sau khi `decompress()` không xuất hiện quá 1 lần (Để đảm bảo BTYPE luôn bằng 1).
+5. Nên để `terminate_symbol` như vậy.
 
 ## ~~Chép code~~ Tham khảo:
 - https://calmarius.net/index.php?lang=en&page=programming%2Fzlib_deflate_quick_reference: Đây là nơi mình đọc về format của compressed data.
