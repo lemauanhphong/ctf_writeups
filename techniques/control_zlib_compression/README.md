@@ -39,7 +39,7 @@ Yeah 🙂
 ## Lưu ý:
 Không phải tất cả payload đều hoạt động được, ví dụ ``<?=`$_GET[1]`;?>`` sẽ gây ra lỗi.
 
-Điều kiện để code gặp ít lỗi nhất (nhưng vẫn sẽ có lỗi 🥲), nếu không thì sẽ phải tự sửa lại tùy payload 😿
+Điều kiện để code gặp ít lỗi nhất (nhưng vẫn sẽ có lỗi 🥲), nếu không thì sẽ phải tự sửa lại tùy payload 😿 (mục đích cuối là để tránh sử dụng BTYPE và LZ777 trong quá trình nén và giải nén)
 1. Không dùng quá nhiều loại ký tự khác nhau trong payload.
 2. Dùng `payload` càng ngắn càng tốt.
 3. Ký tự cuối cùng của `payload` nên để là `>`.
@@ -58,7 +58,7 @@ Không phải tất cả payload đều hoạt động được, ví dụ ``<?=`
 - Điều kiện 1 được dùng để đảm bảo BTYPE không thể bằng 0.
 - Điều kiện 2 được dùng để đảm bảo BTYPE không thể bằng 2.
 - Điều kiện 3 được dùng để đảm bảo thuật toán LZ77 được dùng khi compress() không có tác dụng, do đó lúc decompress() cũng không có tác dụng.
-- 27/12/2022: chỉ có 3 loại BTYPE 0, 1 và 2. Mình cố gắng để BTYPE = 1, 
-      + là một giá trị cho phép hiệu quả về cả độ phức tạp và độ dài của payload và output.
-      + mình cố gắng để BTYPE = 1 nhưng đoạn implement decompress() thì có cả code xử lý khi BTYPE = 0 hay 2 dùng để đề phòng cho sau này.
-      + tương tự phần xử lý LZ77 ở trên cũng không có tác dụng nhưng sẽ được mình để lại.
+- 27/12/2022: chỉ có 3 loại BTYPE 0, 1 và 2. Mình cố gắng để BTYPE = 1,
+  * là một giá trị cho phép hiệu quả về cả độ phức tạp và độ dài của payload và output.
+  * mình cố gắng để BTYPE = 1 nhưng đoạn implement decompress() thì có cả code xử lý khi BTYPE = 0 hay 2 dùng để đề phòng cho sau này.
+  * tương tự phần xử lý LZ77 ở trên cũng không có tác dụng nhưng sẽ được mình để lại.
