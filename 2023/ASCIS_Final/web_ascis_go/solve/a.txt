@@ -1,0 +1,2 @@
+auth ASCISRedis
+set injected_key "injected_value"
