@@ -24,3 +24,17 @@ const initCycleTLS = require('cycletls');
 })();
 
 ```
+
+# ginowa
+SQL injection ở /index.php?id=, dùng nó để đọc file read flag bằng shortname C:/readfl~1.exe, sau khi reverse nó thì thấy nó đọc file s. Lại tiếp tục dùng SQL injection để lấy file s rồi reverse tiếp là có flag.
+
+Trick: name 8.3 trên Windows.
+
+# saas
+Ở endpoint /register nhận user input làm đầu vào của validatorFactory -> inject được node code.
+![image](https://github.com/lemauanhphong/ctf_writeups/assets/91038460/6fc8c6ea-6c67-4309-a49e-153a14bee52c)
+
+Sau khi inject được thì trigger ở endpoint /whowilldothis/:uid để RCE
+![image](https://github.com/lemauanhphong/ctf_writeups/assets/91038460/86389be2-a115-4662-8c1e-67ac07813a0e)
+
+
